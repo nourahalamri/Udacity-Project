@@ -149,7 +149,10 @@ def create_venue_form():
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
     error = False
-    try:
+    form=VenueForm()
+    if form.validate_on_submit():
+
+     try:
         venue = Venue()
         venue.name = request.form['name']
         venue.city = request.form['city']
@@ -161,11 +164,11 @@ def create_venue_submission():
         venue.facebook_link = request.form['facebook_link']
         db.session.add(venue)
         db.session.commit()
-    except:
+     except:
         error = True
         db.session.rollback()
         print(sys.exc_info())
-    finally:
+     finally:
         db.session.close()
         if error:
             flash('An error occured. Venue ' +
@@ -173,6 +176,7 @@ def create_venue_submission():
         else:
             flash('Venue ' + request.form['name'] +
                   ' was successfully listed!')
+    flash("Wrong Vlidations")        
     return render_template('pages/home.html')
 
 @app.route('/venues')
@@ -422,7 +426,10 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
   error = False
-  try:
+  form=ArtistForm()
+  if form.validate_on_submit():
+
+   try:
       artist = Artist()
       artist.name = request.form['name']
       artist.city = request.form['city']
@@ -435,11 +442,11 @@ def create_artist_submission():
       artist.facebook_link = request.form['facebook_link']
       db.session.add(artist)
       db.session.commit()
-  except:
+   except:
         error = True
         db.session.rollback()
         print(sys.exc_info())
-  finally:
+   finally:
       db.session.close()
       if error:
               flash('An error occurred. Artist ' + 
@@ -447,6 +454,7 @@ def create_artist_submission():
       else:
               flash('Artist ' + request.form['name'] + 
                     ' was successfully listed!')
+  flash("Wrong Validation")
   return render_template('pages/home.html')
 
 #  Shows
